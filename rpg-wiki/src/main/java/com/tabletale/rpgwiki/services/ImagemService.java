@@ -25,8 +25,6 @@ public class ImagemService {
     @Autowired
     private ImagemRepository imgRepository;
 
-
-
     private String salvar(String diretorio, MultipartFile arquivo, String nomeImagem) {
         Path diretorioImagemPath = Paths.get(this.raiz, diretorio);
         Path arquivoPath = diretorioImagemPath.resolve(arquivo.getOriginalFilename());
@@ -55,20 +53,17 @@ public class ImagemService {
     }
 
     public Imagem upImagem(MultipartFile file) throws IOException {
-        
+
         byte[] bytes = file.getBytes();
-                
+
         String nomeImagem = String.valueOf(file.getOriginalFilename());
         String caminho = salvar(this.diretorioImagens, file, nomeImagem);
         Imagem img = new Imagem(nomeImagem, caminho, bytes);
         img.setArquivo(bytes);
-        
 
         return imgRepository.saveAndFlush(img);
 
     }
-
-
 
     public Imagem findPorId(Long id) {
         return imgRepository.findById(id).orElse(null);
